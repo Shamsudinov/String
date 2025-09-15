@@ -27,34 +27,39 @@ int CustomString::size() const{
 }
 
 char& CustomString::operator [](int index){
+    std::cout << "operator[](int index)" << std::endl;
+    if(index >= _size)
+        throw std::out_of_range("CustomString::operator []");
     return data[index];
 }
 
 CustomString& CustomString::operator=(const CustomString& str){
 
+    std::cout << "operator=(const CustomString& str)" << std::endl;
     delete [] data;
     _size = str.size();
     data = new char[_size];
     for(int idx = 0; idx < _size; idx++){
         data[idx] = str.at(idx);
     }
-
     return *this;
 }
 
 CustomString& CustomString::operator=(const char *str){
 
+    std::cout << "operator=(const char *str)" << std::endl;
     delete [] data;
     _size = strlen(str);
     data = new char[_size];
     for(int idx = 0; idx < _size; idx++){
         data[idx] = str[idx];
     }
-
     return *this;
 }
 
 char CustomString::at(int index) const{
+    if(index >= _size)
+        throw std::out_of_range("CustomString::at(int index) const");
     return data[index];
 }
 
