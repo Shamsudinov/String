@@ -7,20 +7,25 @@
 class CustomString{
 
     int _size;
-    char *data;
+    char *_data;
 public:
     explicit CustomString();
+    explicit CustomString(char*,int);
     explicit CustomString(const CustomString&);
     ~CustomString();
 
     int size() const;
+
     char& operator [](int);
+    CustomString operator+(const CustomString&);
     CustomString& operator=(const CustomString&);
     CustomString& operator=(const char*);
 
     char at(int) const;
 
     void print() const;
+
+    char* data() const;
 };
 
 std::ostream& operator<<(std::ostream&,const CustomString&);
