@@ -98,7 +98,12 @@ char *CustomString::data() const {
     return _data;
 }
 
+bool CustomString::empty() const{
 
+    if(write_pos == 0)
+        return true;
+    return false;
+}
 
 std::ostream& operator<<(std::ostream &os, const CustomString &str)
 {

@@ -8,6 +8,7 @@ class CustomString{
 
     int _size;
     int _capacity;
+    int write_pos;
     char *_data;
 public:
     explicit CustomString();
@@ -28,6 +29,8 @@ public:
     void print() const;
 
     char* data() const;
+
+    bool empty() const;
 };
 
 std::ostream& operator<<(std::ostream&,const CustomString&);
