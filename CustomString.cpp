@@ -1,26 +1,47 @@
 #include "CustomString.h"
 
-CustomString::CustomString (){
+CustomString::CustomString () :
+    _size(0),
+    _capacity(MIN_CAPACITY),
+    _data(new (std::nothrow) char[_capacity]){
 
-    std::cout << "Cstring();" << std::endl;
-    _size = 100;
-    _data = new char[_size];
+    if(_data != nullptr){
+        std::cout << "CustomString();" << std::endl;
+    } else {
+        std::cout << "Memory allocation error" << std::endl;
+    }
 }
 
 CustomString::CustomString(char* data, int size){
 
     _size = size;
-    _data = new char[_size];
-    std::strcpy(_data,data);
+    _capacity = MIN_CAPACITY;
+    if(_size >= _capacity){
+        _capacity = _size + _capacity;
+    }
+
+    _data = new (std::nothrow) char[_capacity];
+    if(_data != nullptr){
+        std::cout << "CustomString(char* data, int size)" << std::endl;
+        std::strcpy(_data,data);
+        _data[_size] = '\0';
+    } else {
+        std::cout << "Memory allocation error" << std::endl;
+    }
 }
 
 CustomString::CustomString(const CustomString& str){
 
-    std::cout << "Cstring() copy;" << std::endl;
+    _capacity = str.capacity();
     _size = str.size();
-    _data = new char[_size];
-    for(int idx = 0; idx < _size; idx++){
-        _data[idx] = str.at(idx);
+    _data = new (std::nothrow) char[_capacity];
+    if(_data != nullptr){
+        for(int idx = 0; idx < _size; idx++){
+            _data[idx] = str.at(idx);
+        }
+        _data[_size] = '\0';
+    } else {
+         std::cout << "CustomString(const CustomString& str)" << std::endl;
     }
 }
 
@@ -46,11 +67,10 @@ char& CustomString::operator [](int index){
 
 CustomString CustomString::operator+(const CustomString& str){
 
-    int new_size = _size + str.size();
-    char *new_data = new char[new_size];
+    char *new_data = new char[_capacity + str.capacity()];
     std::strcpy(new_data,_data);
     std::strcat(new_data,str.data());
-    CustomString result_string(new_data,new_size);
+    CustomString result_string(new_data,_size + str.size());
     delete [] new_data;
     return CustomString(result_string);
 }
@@ -69,13 +89,19 @@ CustomString& CustomString::operator=(const CustomString& str){
 
 CustomString& CustomString::operator=(const char *str){
 
-    std::cout << "operator=(const char *str)" << std::endl;
     delete [] _data;
     _size = strlen(str);
-    _data = new char[_size];
-    for(int idx = 0; idx < _size; idx++) {
-        _data[idx] = str[idx];
+    if(_size >= _capacity)
+        _capacity = _size + MIN_CAPACITY;
+    _data = new (std::nothrow) char[_capacity];
+    if(_data != nullptr){
+        std::cout << "operator=(const char *str)" << std::endl;
+        for(int idx = 0; idx < _size; idx++) {
+            _data[idx] = str[idx];
+        }
+        _data[_size] = '\0';
     }
+
     return *this;
 }
 
@@ -100,7 +126,7 @@ char *CustomString::data() const {
 
 bool CustomString::empty() const{
 
-    if(write_pos == 0)
+    if(_size == 0)
         return true;
     return false;
 }

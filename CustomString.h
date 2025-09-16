@@ -3,12 +3,14 @@
 
 #include <iostream>
 #include <cstring>
+#include <new>
+
+const int MIN_CAPACITY = 1000;
 
 class CustomString{
 
     int _size;
     int _capacity;
-    int write_pos;
     char *_data;
 public:
     explicit CustomString();
