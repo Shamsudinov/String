@@ -32,6 +32,10 @@ int CustomString::size() const {
     return _size;
 }
 
+int CustomString::capacity() const{
+    return _capacity;
+}
+
 char& CustomString::operator [](int index){
 
     std::cout << "operator[](int index)" << std::endl;

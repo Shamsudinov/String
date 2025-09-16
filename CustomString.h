@@ -7,6 +7,7 @@
 class CustomString{
 
     int _size;
+    int _capacity;
     char *_data;
 public:
     explicit CustomString();
@@ -15,6 +16,7 @@ public:
     ~CustomString();
 
     int size() const;
+    int capacity() const;
 
     char& operator [](int);
     CustomString operator+(const CustomString&);
